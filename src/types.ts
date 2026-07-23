@@ -87,6 +87,7 @@ export interface Customer {
 
 export interface AppSettings {
   staffList?: string[]; // Array of staff names (e.g. ['Althaf', 'Nafees', 'Prabhu'])
+  serviceAreas?: string[]; // Custom service areas
   dailyWages: Record<string, number>; // Staff name -> standard wage
   currentOwner: 'Kiruthika' | 'Karthick' | 'Prabhu' | null;
   currentUserRole?: 'Owner' | 'Manager' | null;

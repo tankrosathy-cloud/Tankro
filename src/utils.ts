@@ -332,6 +332,7 @@ export const SAMPLE_ATTENDANCE: DailyAttendance[] = [
 
 export const DEFAULT_SETTINGS: AppSettings = {
   staffList: ['Althaf', 'Nafees', 'Prabhu'],
+  serviceAreas: ['Erode', 'Gobichettipalayam', 'Punjai Puliambatti'],
   dailyWages: {
     Althaf: 300,
     Nafees: 400,

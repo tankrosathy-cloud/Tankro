@@ -39,6 +39,7 @@ export default function AttendanceModule({
 
   // Settings state in terms of Monthly Salaries (computed as dailyWage * 30)
   const [staffListStr, setStaffListStr] = useState<string>((settings?.staffList || ['Althaf', 'Nafees', 'Prabhu']).join(', '));
+  const [serviceAreasStr, setServiceAreasStr] = useState<string>((settings?.serviceAreas || ['Erode', 'Gobichettipalayam', 'Punjai Puliambatti']).join(', '));
   const [monthlyWagesInput, setMonthlyWagesInput] = useState<Record<string, number | ''>>(() => {
     const list = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
     const init: Record<string, number | ''> = {};
@@ -108,6 +109,7 @@ export default function AttendanceModule({
     if (settings.whatsappTemplates) {
       setWhatsappTemplates(settings.whatsappTemplates);
     }
+    setServiceAreasStr((settings?.serviceAreas || ['Erode', 'Gobichettipalayam', 'Punjai Puliambatti']).join(', '));
   }, [settings]);
 
   // Handle setting updates (Comprehensive Partners & Franchise system)
@@ -120,6 +122,7 @@ export default function AttendanceModule({
     const updatedSettings: AppSettings = {
       ...settings,
       staffList: staffListStr.split(',').map(s => s.trim()).filter(Boolean),
+      serviceAreas: serviceAreasStr.split(',').map(s => s.trim()).filter(Boolean),
       dailyWages: Object.fromEntries(
         staffListStr.split(',').map(s => s.trim()).filter(Boolean).map(s => [s, Math.round(Number(monthlyWagesInput[s] || 0) / 30)])
       ),
@@ -303,10 +306,10 @@ export default function AttendanceModule({
           </div>
 
           {/* SECTION 1: Franchise Branding */}
-          <div className="space-y-2 p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
-            <h4 className="font-bold text-slate-800">1. Franchise Branding</h4>
+          <div className="space-y-4 p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
+            <h4 className="font-bold text-slate-800">1. Franchise Branding & Service Areas</h4>
             <p className="text-[10px] text-slate-400">
-              Customize the business branding name printed on PDF invoices and WhatsApp notifications.
+              Customize the business branding name and operational areas.
             </p>
             <div>
               <label className="text-[10px] text-slate-500 font-semibold block mb-1">Business Name:</label>
@@ -316,6 +319,16 @@ export default function AttendanceModule({
                 onChange={(e) => setFranchiseName(e.target.value)}
                 className="w-full max-w-md bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800"
                 placeholder="e.g. Tankro Erode"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] text-slate-500 font-semibold block mb-1">Service Areas (comma separated):</label>
+              <input
+                type="text"
+                value={serviceAreasStr}
+                onChange={(e) => setServiceAreasStr(e.target.value)}
+                className="w-full max-w-md bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800 text-xs"
+                placeholder="e.g. Erode, Gobichettipalayam, Punjai Puliambatti"
               />
             </div>
           </div>

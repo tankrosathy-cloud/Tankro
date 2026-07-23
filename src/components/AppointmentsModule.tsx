@@ -99,7 +99,8 @@ export default function AppointmentsModule({
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
-  const [area, setArea] = useState('Erode');
+  const defaultArea = settings?.serviceAreas?.[0] || 'Erode';
+  const [area, setArea] = useState(defaultArea);
   const [otherAreaText, setOtherAreaText] = useState('');
   const [tankCapacity, setTankCapacity] = useState<number | ''>(1000);
   const [numTanks, setNumTanks] = useState<number | ''>(1);
@@ -1220,7 +1221,7 @@ For support or reschedule, call us at 9629335542.`;
                 {/* Area Dropdown */}
                 <div className="space-y-1">
                   <label className="block text-slate-500 font-bold text-[10px] uppercase tracking-wider">
-                    Erode Area Location *
+                    Service Area Location *
                   </label>
                   <select
                     value={area}
@@ -1228,10 +1229,9 @@ For support or reschedule, call us at 9629335542.`;
                     className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-200 cursor-pointer"
                     id="appt-cust-area"
                   >
-                    <option value="Erode">Erode</option>
-                    <option value="Gobichettipalayam">Gobichettipalayam</option>
-                    <option value="Punjai Puliambatti">Punjai Puliambatti</option>
-                    <option value="Erode">Erode</option>
+                    {(settings?.serviceAreas || ['Erode', 'Gobichettipalayam', 'Punjai Puliambatti']).map(a => (
+                      <option key={a} value={a}>{a}</option>
+                    ))}
               <option value="Other">Other Area</option>
                   </select>
                 </div>
