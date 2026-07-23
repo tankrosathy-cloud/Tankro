@@ -65,7 +65,7 @@ export default function SubscriptionList({ jobs, onQuickLogJob, settings }: Subs
     if (template) {
       message = formatWhatsappMessage(template, {
         customerName: sub.customerName,
-        franchiseName: settings.franchiseName || 'Tankro Sathyamangalam',
+        franchiseName: settings.franchiseName || 'Tankro Erode',
         date: sub.nextServiceDueDate || '',
         capacity: sub.tankCapacity,
         tanksCount: sub.numTanks || 1,
@@ -77,7 +77,7 @@ export default function SubscriptionList({ jobs, onQuickLogJob, settings }: Subs
         ? sub.individualTanks.map((t) => `${t}L`).join(' + ')
         : `${sub.tankCapacity}L (${sub.numTanks} tanks)`;
 
-      message = `*${settings?.franchiseName || 'Tankro Sathyamangalam'}* - Water Tank Cleaning Subscription Due 💧
+      message = `*${settings?.franchiseName || 'Tankro Erode'}* - Water Tank Cleaning Subscription Due 💧
 
 Hello ${sub.customerName},
 

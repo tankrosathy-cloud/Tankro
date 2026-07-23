@@ -102,7 +102,7 @@ export default function CustomerHistory({
     const template = settings?.whatsappTemplates?.due || `Hello {customerName}, this is from {franchiseName}. We are checking in regarding your water tank cleaning service. Regular cleaning ensures clean and safe drinking water. Please let us know when we can schedule your cleaning service. Thank you!`;
     const message = formatWhatsappMessage(template, {
       customerName: name,
-      franchiseName: settings?.franchiseName || 'Tankro Sathyamangalam',
+      franchiseName: settings?.franchiseName || 'Tankro Erode',
       date: '',
       capacity: '',
       tanksCount: '',

@@ -133,7 +133,7 @@ export default function RecordsPage({
         isOpen: true,
         type: 'alert',
         title: 'Access Denied',
-        message: 'Managers (Akram) are not authorized to delete transaction records. Only Owners (Nadeem & Yuvaraj) can delete items.',
+        message: 'Managers (Prabhu) are not authorized to delete transaction records. Only Owners (Karthick & Kiruthika) can delete items.',
       });
       return;
     }
@@ -152,7 +152,7 @@ export default function RecordsPage({
         isOpen: true,
         type: 'alert',
         title: 'Access Denied',
-        message: 'Managers (Akram) are not authorized to delete transaction records. Only Owners (Nadeem & Yuvaraj) can delete items.',
+        message: 'Managers (Prabhu) are not authorized to delete transaction records. Only Owners (Karthick & Kiruthika) can delete items.',
       });
       return;
     }

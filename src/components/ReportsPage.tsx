@@ -145,7 +145,8 @@ export default function ReportsPage({
     .sort((a, b) => b.revenue - a.revenue);
 
   // Staff-wise jobs for selected range
-  const staffJobsMap: Record<string, number> = { Althaf: 0, Nafees: 0, Akram: 0 };
+  const staffJobsMap: Record<string, number> = {};
+  (settings?.staffList || ['Althaf', 'Nafees', 'Prabhu']).forEach(s => staffJobsMap[s] = 0);
   rangeJobs.forEach((job) => {
     job.staffAssigned.forEach((staff) => {
       if (staffJobsMap[staff] !== undefined) {
@@ -501,7 +502,7 @@ export default function ReportsPage({
                       const template = settings.whatsappTemplates?.due || `Hello {customerName}, this is a gentle reminder from {franchiseName}. Regarding your water tank cleaning service completed on {date}, the pending balance amount is {amount}. Kindly transfer via GPay/UPI. Thank you!`;
                       const msg = formatWhatsappMessage(template, {
                         customerName: pJob.customerName,
-                        franchiseName: settings.franchiseName || 'Tankro Sathyamangalam',
+                        franchiseName: settings.franchiseName || 'Tankro Erode',
                         date: pJob.date,
                         capacity: pJob.tankCapacity,
                         tanksCount: pJob.numTanks || 1,

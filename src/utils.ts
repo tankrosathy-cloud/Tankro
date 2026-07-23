@@ -160,8 +160,8 @@ export const SAMPLE_JOBS: Job[] = [
     date: yesterdayStr,
     customerName: 'Karthik Raja',
     customerPhone: '9842512345',
-    customerAddress: '12, Sathy Main Road, near Bus Stand',
-    area: 'Sathyamangalam',
+    customerAddress: '12, Erode Main Road, near Bus Stand',
+    area: 'Erode',
     tankCapacity: 2000,
     numTanks: 2,
     distance: 5,
@@ -185,7 +185,7 @@ export const SAMPLE_JOBS: Job[] = [
     tankCapacity: 5000,
     numTanks: 1,
     distance: 12, // >8km -> 4 * 10 = 40 surcharge
-    staffAssigned: ['Althaf', 'Akram'],
+    staffAssigned: ['Althaf', 'Prabhu'],
     jobType: 'Subscription',
     subscriptionInterval: '6 months',
     gstApplicable: true,
@@ -207,7 +207,7 @@ export const SAMPLE_JOBS: Job[] = [
     tankCapacity: 8000,
     numTanks: 1,
     distance: 15, // >8km -> 7 * 10 = 70 surcharge
-    staffAssigned: ['Nafees', 'Akram'],
+    staffAssigned: ['Nafees', 'Prabhu'],
     jobType: 'Subscription',
     subscriptionInterval: '3 months',
     gstApplicable: false,
@@ -222,14 +222,14 @@ export const SAMPLE_JOBS: Job[] = [
   {
     id: 'job-4',
     date: addMonths(todayStr, 0).replace(/-\d\d$/, '-05'), // Hardcoded 5th of this month
-    customerName: 'Sathy Textiles',
+    customerName: 'Erode Textiles',
     customerPhone: '9944112233',
     customerAddress: '102, Kamarajar Street',
-    area: 'Sathyamangalam',
+    area: 'Erode',
     tankCapacity: 15000,
     numTanks: 1,
     distance: 3,
-    staffAssigned: ['Althaf', 'Nafees', 'Akram'],
+    staffAssigned: ['Althaf', 'Nafees', 'Prabhu'],
     jobType: 'One-Time',
     gstApplicable: true,
     paymentStatus: 'Paid',
@@ -270,7 +270,7 @@ export const SAMPLE_EXPENSES: Expense[] = [
     date: yesterdayStr,
     category: 'Petrol/Fuel',
     amount: 350,
-    paidBy: 'Yuvaraj',
+    paidBy: 'Kiruthika',
     notes: 'TVS XL petrol for field team',
   },
   {
@@ -278,23 +278,23 @@ export const SAMPLE_EXPENSES: Expense[] = [
     date: yesterdayStr,
     category: 'Chlorine Tablets',
     amount: 450,
-    paidBy: 'Nadeem',
-    notes: 'Packet of 100 tablets from Sathy Chemicals',
+    paidBy: 'Karthick',
+    notes: 'Packet of 100 tablets from Erode Chemicals',
   },
   {
     id: 'exp-3',
     date: todayStr,
     category: 'Food/Refreshments',
     amount: 220,
-    paidBy: 'Yuvaraj',
-    notes: 'Tea & snacks for team at Sathy bus stand',
+    paidBy: 'Kiruthika',
+    notes: 'Tea & snacks for team at Erode bus stand',
   },
   {
     id: 'exp-4',
     date: addMonths(todayStr, 0).replace(/-\d\d$/, '-05'),
     category: 'Gloves',
     amount: 300,
-    paidBy: 'Nadeem',
+    paidBy: 'Karthick',
     notes: 'Rubber gloves 3 pairs',
   }
 ];
@@ -306,12 +306,12 @@ export const SAMPLE_ATTENDANCE: DailyAttendance[] = [
     records: {
       Althaf: 'Present',
       Nafees: 'Present',
-      Akram: 'Present',
+      Prabhu: 'Present',
     },
     wages: {
       Althaf: 500,
       Nafees: 500,
-      Akram: 500,
+      Prabhu: 500,
     },
   },
   {
@@ -320,24 +320,29 @@ export const SAMPLE_ATTENDANCE: DailyAttendance[] = [
     records: {
       Althaf: 'Present',
       Nafees: 'Present',
-      Akram: 'Absent',
+      Prabhu: 'Absent',
     },
     wages: {
       Althaf: 500,
       Nafees: 500,
-      Akram: 0,
+      Prabhu: 0,
     },
   }
 ];
 
 export const DEFAULT_SETTINGS: AppSettings = {
+  staffList: ['Althaf', 'Nafees', 'Prabhu'],
   dailyWages: {
     Althaf: 300,
     Nafees: 400,
-    Akram: 500,
+    Prabhu: 500,
   },
   currentOwner: null, // Selectable at first launch
-  franchiseName: 'Tankro Sathyamangalam',
+  franchiseName: 'Tankro Erode',
+  license: {
+    status: 'trial', // Start with 14-day trial
+    trialStartDate: new Date().toISOString().split('T')[0],
+  },
   customSlabRates: {
     '1000': 800,
     '3000': 950,

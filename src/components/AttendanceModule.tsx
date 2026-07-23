@@ -25,25 +25,32 @@ export default function AttendanceModule({
 
   // Mark Attendance State
   const [date, setDate] = useState(getTodayDateString());
-  const [records, setRecords] = useState<Record<string, AttendanceStatus>>({
-    Althaf: 'Present',
-    Nafees: 'Present',
-    Akram: 'Present',
+  const currentStaff = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
+  const [records, setRecords] = useState<Record<string, AttendanceStatus>>(() => {
+    const init: Record<string, AttendanceStatus> = {};
+    currentStaff.forEach(s => init[s] = 'Present');
+    return init;
   });
-  const [wages, setWages] = useState<Record<string, number | ''>>({
-    Althaf: (settings.dailyWages?.Althaf) || 300,
-    Nafees: (settings.dailyWages?.Nafees) || 400,
-    Akram: (settings.dailyWages?.Akram) || 500,
+  const [wages, setWages] = useState<Record<string, number | ''>>(() => {
+    const init: Record<string, number | ''> = {};
+    currentStaff.forEach(s => init[s] = settings.dailyWages?.[s] || 300);
+    return init;
   });
 
   // Settings state in terms of Monthly Salaries (computed as dailyWage * 30)
-  const [althafMonthly, setAlthafMonthly] = useState<number | ''>(((settings.dailyWages?.Althaf) || 300) * 30);
-  const [nafeesMonthly, setNafeesMonthly] = useState<number | ''>(((settings.dailyWages?.Nafees) || 400) * 30);
-  const [akramMonthly, setAkramMonthly] = useState<number | ''>(((settings.dailyWages?.Akram) || 500) * 30);
+  const [staffListStr, setStaffListStr] = useState<string>((settings?.staffList || ['Althaf', 'Nafees', 'Prabhu']).join(', '));
+  const [monthlyWagesInput, setMonthlyWagesInput] = useState<Record<string, number | ''>>(() => {
+    const list = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
+    const init: Record<string, number | ''> = {};
+    list.forEach(s => {
+      init[s] = ((settings.dailyWages?.[s]) || 300) * 30;
+    });
+    return init;
+  });
   const [showSettings, setShowSettings] = useState(false);
 
   // Custom Franchise Branding & Pricing Slabs & WhatsApp Templates Settings
-  const [franchiseName, setFranchiseName] = useState(settings.franchiseName || 'Tankro Sathyamangalam');
+  const [franchiseName, setFranchiseName] = useState(settings.franchiseName || 'Tankro Erode');
   const [customSlabRates, setCustomSlabRates] = useState<Record<string, number>>(settings.customSlabRates || {
     '1000': 800,
     '3000': 950,
@@ -71,16 +78,13 @@ export default function AttendanceModule({
       setWages(existing.wages);
     } else {
       // Default behavior from settings
-      const defaultRecords: Record<string, AttendanceStatus> = {
-        Althaf: 'Present',
-        Nafees: 'Present',
-        Akram: 'Present',
-      };
-      const defaultWages: Record<string, number> = {
-        Althaf: (settings.dailyWages?.Althaf) || 300,
-        Nafees: (settings.dailyWages?.Nafees) || 400,
-        Akram: (settings.dailyWages?.Akram) || 500,
-      };
+      const currentStaff = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
+      const defaultRecords: Record<string, AttendanceStatus> = {};
+      const defaultWages: Record<string, number> = {};
+      currentStaff.forEach(s => {
+        defaultRecords[s] = 'Present';
+        defaultWages[s] = settings.dailyWages?.[s] || 300;
+      });
       setRecords(defaultRecords);
       setWages(defaultWages);
     }
@@ -88,10 +92,16 @@ export default function AttendanceModule({
 
   // Keep state in sync when settings prop updates
   useEffect(() => {
-    setAlthafMonthly(((settings.dailyWages?.Althaf) || 300) * 30);
-    setNafeesMonthly(((settings.dailyWages?.Nafees) || 400) * 30);
-    setAkramMonthly(((settings.dailyWages?.Akram) || 500) * 30);
-    setFranchiseName(settings.franchiseName || 'Tankro Sathyamangalam');
+    const currentStaff = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
+    setStaffListStr(currentStaff.join(', '));
+    setMonthlyWagesInput(prev => {
+      const next = { ...prev };
+      currentStaff.forEach(s => {
+        next[s] = ((settings.dailyWages?.[s]) || 300) * 30;
+      });
+      return next;
+    });
+    setFranchiseName(settings.franchiseName || 'Tankro Erode');
     if (settings.customSlabRates) {
       setCustomSlabRates(settings.customSlabRates);
     }
@@ -109,11 +119,10 @@ export default function AttendanceModule({
 
     const updatedSettings: AppSettings = {
       ...settings,
-      dailyWages: {
-        Althaf: Math.round(Number(althafMonthly) / 30),
-        Nafees: Math.round(Number(nafeesMonthly) / 30),
-        Akram: Math.round(Number(akramMonthly) / 30),
-      },
+      staffList: staffListStr.split(',').map(s => s.trim()).filter(Boolean),
+      dailyWages: Object.fromEntries(
+        staffListStr.split(',').map(s => s.trim()).filter(Boolean).map(s => [s, Math.round(Number(monthlyWagesInput[s] || 0) / 30)])
+      ),
       franchiseName,
       customSlabRates,
       whatsappTemplates,
@@ -123,11 +132,12 @@ export default function AttendanceModule({
     setShowSettings(false);
     alert('Franchise and pricing settings updated successfully!');
 
-    setWages({
-      Althaf: Math.round(Number(althafMonthly) / 30),
-      Nafees: Math.round(Number(nafeesMonthly) / 30),
-      Akram: Math.round(Number(akramMonthly) / 30),
+    const currentStaff = staffListStr.split(',').map(s => s.trim()).filter(Boolean);
+    const newWages: Record<string, number> = {};
+    currentStaff.forEach(s => {
+      newWages[s] = Math.round(Number(monthlyWagesInput[s] || 0) / 30);
     });
+    setWages(newWages);
   };
 
   const handleStatusChange = (staff: string, status: AttendanceStatus) => {
@@ -135,7 +145,7 @@ export default function AttendanceModule({
     setRecords(newRecords);
 
     // Auto calculate wage based on status and standard daily wage (monthly salary / 30)
-    const standardWage = (settings.dailyWages?.[staff]) || (staff === 'Akram' ? 500 : staff === 'Nafees' ? 400 : 300);
+    const standardWage = (settings.dailyWages?.[staff]) || 300;
     let calculatedWage = standardWage;
     if (status === 'Absent' || status === 'Leave') {
       calculatedWage = 0;
@@ -179,14 +189,15 @@ export default function AttendanceModule({
 
   const handleSettingsClick = () => {
     if (settings.currentUserRole === 'Manager') {
-      alert('Access Denied: Only Owners (Nadeem & Yuvaraj) can configure settings.');
+      alert('Access Denied: Only Owners (Karthick & Kiruthika) can configure settings.');
       return;
     }
     setShowSettings(!showSettings);
   };
 
   // Compile stats for selected month
-  const staffStats = ['Althaf', 'Nafees', 'Akram'].map((staff) => {
+  const currentStaffListStats = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
+  const staffStats = currentStaffListStats.map((staff) => {
     let presentCount = 0;
     let absentCount = 0;
     let halfDayCount = 0;
@@ -304,8 +315,63 @@ export default function AttendanceModule({
                 value={franchiseName}
                 onChange={(e) => setFranchiseName(e.target.value)}
                 className="w-full max-w-md bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800"
-                placeholder="e.g. Tankro Sathyamangalam"
+                placeholder="e.g. Tankro Erode"
               />
+            </div>
+          </div>
+
+          {/* SECTION 2: Staff Configuration */}
+          <div className="space-y-4 p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
+            <div>
+              <h4 className="font-bold text-slate-800">2. Staff Members & Fixed Base Salaries</h4>
+              <p className="text-[10px] text-slate-400">
+                Comma-separated list of staff members. Changing this updates payroll and attendance trackers.
+              </p>
+              <div className="mt-2 mb-4">
+                <label className="text-[10px] text-slate-500 font-semibold block mb-1">Staff Names (comma separated):</label>
+                <input
+                  type="text"
+                  value={staffListStr}
+                  onChange={(e) => {
+                     setStaffListStr(e.target.value);
+                     // Automatically populate monthly wages input for new members
+                     const currentNames = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                     setMonthlyWagesInput(prev => {
+                       const next = { ...prev };
+                       currentNames.forEach(name => {
+                         if (!next[name]) next[name] = 9000; // default 300/day
+                       });
+                       return next;
+                     });
+                  }}
+                  className="w-full max-w-md bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800 text-xs"
+                  placeholder="e.g. Althaf, Nafees, Prabhu"
+                />
+              </div>
+            </div>
+
+            {/* Base Salaries for each staff */}
+            <div>
+              <p className="text-[10px] text-slate-400 mb-2">
+                Set fixed monthly base salary for each staff member. (Base salary is used for standard daily wage computations)
+              </p>
+              <div className="grid grid-cols-2 gap-3 max-w-md">
+                {staffListStr.split(',').map(s => s.trim()).filter(Boolean).map(staffName => (
+                  <div key={staffName}>
+                    <label className="text-[10px] text-slate-500 font-semibold block mb-1">{staffName} (Monthly Base):</label>
+                    <div className="flex items-center gap-1">
+                      <span className="text-slate-400 font-bold text-sm">₹</span>
+                      <input
+                        type="number"
+                        value={monthlyWagesInput[staffName] || ''}
+                        onChange={(e) => setMonthlyWagesInput(prev => ({ ...prev, [staffName]: e.target.value === '' ? '' : parseInt(e.target.value) || 0 }))}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 font-bold text-slate-800 text-xs"
+                        placeholder="e.g. 9000"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -448,10 +514,10 @@ export default function AttendanceModule({
             </div>
 
             <div className="space-y-4 pt-2">
-              {['Althaf', 'Nafees', 'Akram'].map((staff) => {
+              {(settings?.staffList || ['Althaf', 'Nafees', 'Prabhu']).map((staff) => {
                 const currentStatus = records[staff] || 'Present';
                 const currentWage = wages[staff] !== undefined ? wages[staff] : 0;
-                const dailyRate = (settings.dailyWages?.[staff]) || (staff === 'Akram' ? 500 : staff === 'Nafees' ? 400 : 300);
+                const dailyRate = (settings.dailyWages?.[staff]) || 300;
 
                 return (
                   <div

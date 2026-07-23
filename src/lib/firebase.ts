@@ -3,13 +3,13 @@ import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  projectId: "graphical-monolith-l7c1c",
-  appId: "1:758946223172:web:b0601ffa6c3192c5fc9811",
-  apiKey: "AIzaSyCG9sfKctgvQmxEBlVLRjEJ7E0pAajoaBo",
-  authDomain: "graphical-monolith-l7c1c.firebaseapp.com",
-  firestoreDatabaseId: "ai-studio-tankrosathyamang-53cad950-09ec-46a2-bcba-3152a10d6c06",
-  storageBucket: "graphical-monolith-l7c1c.firebasestorage.app",
-  messagingSenderId: "758946223172"
+  projectId: "sonorous-hue-b3bk6",
+  appId: "1:684252112832:web:4bde91dd76c6ca25e14a25",
+  apiKey: "AIzaSyDY7aBep_asEUrFm-EYf4OOlKxOaLHbGrI",
+  authDomain: "sonorous-hue-b3bk6.firebaseapp.com",
+  firestoreDatabaseId: "tankro-erode",
+  storageBucket: "sonorous-hue-b3bk6.firebasestorage.app",
+  messagingSenderId: "684252112832"
 };
 
 const app = initializeApp(firebaseConfig);

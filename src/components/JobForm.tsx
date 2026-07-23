@@ -34,7 +34,7 @@ export default function JobForm({
   const getSlabRateWithSettings = (cap: number) => getSlabRate(cap, settings?.customSlabRates);
 
   // Local form states
-  const ALL_STAFF = ['Althaf', 'Nafees', 'Akram'];
+  const ALL_STAFF = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
   const getAvailableStaff = (currentDate: string) => {
     if (!attendanceRecords) return ALL_STAFF;
     const record = attendanceRecords.find(r => r.date === currentDate);
@@ -50,7 +50,7 @@ export default function JobForm({
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
-  const [area, setArea] = useState('Sathyamangalam');
+  const [area, setArea] = useState('Erode');
   const [otherAreaText, setOtherAreaText] = useState('');
   const [tankCapacity, setTankCapacity] = useState<number | ''>(1000);
   const [numTanks, setNumTanks] = useState<number | ''>(1);
@@ -506,7 +506,7 @@ export default function JobForm({
               className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none focus:ring-1 focus:ring-blue-500 font-semibold text-slate-800 cursor-pointer"
               id="job-cust-area"
             >
-              <option value="Sathyamangalam">Sathyamangalam</option>
+              <option value="Erode">Erode</option>
               <option value="Gobichettipalayam">Gobichettipalayam</option>
               <option value="Punjai Puliambatti">Punjai Puliambatti</option>
               <option value="Erode">Erode</option>

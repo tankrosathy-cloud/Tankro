@@ -42,8 +42,8 @@
     <g transform="translate(260, 140)">
       <!-- Brand Name "TANKRO" with Custom Stretched Style -->
       <text x="0" y="0" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="900" font-size="78" fill="#1e3a8a" letter-spacing="-2">TANKRO</text>
-      <!-- Subtext "SATHY" in Vibrant Accent Red -->
-      <text x="5" y="45" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="800" font-size="34" fill="url(#accentGrad)" letter-spacing="4">SATHY</text>
+      <!-- Subtext "ERODE" in Vibrant Accent Red -->
+      <text x="5" y="45" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="800" font-size="34" fill="url(#accentGrad)" letter-spacing="4">ERODE</text>
       
       <!-- Horizontal Decorative Line -->
       <line x1="5" y1="65" x2="285" y2="65" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />

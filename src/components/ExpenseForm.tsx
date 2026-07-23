@@ -37,7 +37,7 @@ export default function ExpenseForm({
   const [date, setDate] = useState(getTodayDateString());
   const [category, setCategory] = useState<ExpenseCategory>('Petrol/Fuel');
   const [amount, setAmount] = useState<number>(0);
-  const [paidBy, setPaidBy] = useState<'Yuvaraj' | 'Nadeem'>('Yuvaraj');
+  const [paidBy, setPaidBy] = useState<'Kiruthika' | 'Karthick'>('Kiruthika');
   const [notes, setNotes] = useState('');
 
   // Populate form if we are editing an existing expense
@@ -129,12 +129,12 @@ export default function ExpenseForm({
             </label>
             <select
               value={paidBy}
-              onChange={(e) => setPaidBy(e.target.value as 'Yuvaraj' | 'Nadeem')}
+              onChange={(e) => setPaidBy(e.target.value as 'Kiruthika' | 'Karthick')}
               className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:outline-none focus:ring-1 focus:ring-red-500 font-semibold text-slate-800 cursor-pointer"
               id="expense-paid-by"
             >
-              <option value="Yuvaraj">Yuvaraj</option>
-              <option value="Nadeem">Nadeem</option>
+              <option value="Kiruthika">Kiruthika</option>
+              <option value="Karthick">Karthick</option>
             </select>
           </div>
         </div>

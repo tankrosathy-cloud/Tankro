@@ -81,7 +81,7 @@ export default function AppointmentsModule({
   // Tabs: 'schedule' or 'book'
   const [subTab, setSubTab] = useState<'schedule' | 'book'>('schedule');
 
-  const ALL_STAFF = ['Althaf', 'Nafees', 'Akram'];
+  const ALL_STAFF = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
   const getAvailableStaff = (currentDate: string) => {
     if (!attendanceRecords) return ALL_STAFF;
     const record = attendanceRecords.find(r => r.date === currentDate);
@@ -99,7 +99,7 @@ export default function AppointmentsModule({
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
-  const [area, setArea] = useState('Sathyamangalam');
+  const [area, setArea] = useState('Erode');
   const [otherAreaText, setOtherAreaText] = useState('');
   const [tankCapacity, setTankCapacity] = useState<number | ''>(1000);
   const [numTanks, setNumTanks] = useState<number | ''>(1);
@@ -151,7 +151,7 @@ export default function AppointmentsModule({
     }
     setTankCapacity(appt.tankCapacity);
     setNumTanks(appt.numTanks || 1);
-    setStaffAssigned(appt.staffAssigned || ['Althaf']);
+    setStaffAssigned(appt.staffAssigned || [(settings?.staffList || ['Althaf'])[0]]);
     setNotes(appt.notes || '');
     setGoogleLocation(appt.googleLocation || '');
     setIsFranchiseReferral(appt.isFranchiseReferral || false);
@@ -350,9 +350,9 @@ export default function AppointmentsModule({
         return idxA - idxB;
       });
     } else if (criteria === 'area') {
-      // Group by Area: Sathyamangalam (1), Gobichettipalayam (2), Punjai Puliambatti (3), Other (4)
+      // Group by Area: Erode (1), Gobichettipalayam (2), Punjai Puliambatti (3), Other (4)
       const areaWeights: Record<string, number> = {
-        'Sathyamangalam': 1,
+        'Erode': 1,
         'Gobichettipalayam': 2,
         'Punjai Puliambatti': 3,
         'Other': 4
@@ -413,7 +413,7 @@ export default function AppointmentsModule({
 
     message += `───────────────────\n`;
     message += `🔧 Let's execute perfectly! Stay safe!\n`;
-    message += `_Powered by Tankro Sathyamangalam_`;
+    message += `_Powered by Tankro Erode_`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
@@ -458,12 +458,12 @@ export default function AppointmentsModule({
     setCustomerName('');
     setCustomerPhone('');
     setCustomerAddress('');
-    setArea('Sathyamangalam');
+    setArea('Erode');
     setOtherAreaText('');
     setTankCapacity(1000);
     setIsCustomCapacity(false);
     setNumTanks(1);
-    setStaffAssigned(['Althaf']);
+    setStaffAssigned([(settings?.staffList || ['Althaf'])[0]]);
     setNotes('');
     setGoogleLocation('');
     setEditingAppointmentId(null);
@@ -551,14 +551,14 @@ export default function AppointmentsModule({
   };
 
   const triggerWhatsAppShare = (appt: Appointment) => {
-    const areaText = appt.area === 'Other' ? (appt.otherAreaText || 'Sathy') : appt.area;
+    const areaText = appt.area === 'Other' ? (appt.otherAreaText || 'Erode') : appt.area;
     const template = settings?.whatsappTemplates?.reminder;
     let message = '';
 
     if (template) {
       message = formatWhatsappMessage(template, {
         customerName: appt.customerName,
-        franchiseName: settings.franchiseName || 'Tankro Sathyamangalam',
+        franchiseName: settings.franchiseName || 'Tankro Erode',
         date: appt.date,
         timeslot: appt.timeslot,
         capacity: appt.tankCapacity,
@@ -568,7 +568,7 @@ export default function AppointmentsModule({
         staffNames: appt.staffAssigned.join(', ')
       });
     } else {
-      message = `*${settings?.franchiseName || 'Tankro Sathyamangalam'}* - Water Tank Cleaning Schedule 💧
+      message = `*${settings?.franchiseName || 'Tankro Erode'}* - Water Tank Cleaning Schedule 💧
 
 Hello ${appt.customerName},
 
@@ -1220,7 +1220,7 @@ For support or reschedule, call us at 9629335542.`;
                 {/* Area Dropdown */}
                 <div className="space-y-1">
                   <label className="block text-slate-500 font-bold text-[10px] uppercase tracking-wider">
-                    Sathy Area Location *
+                    Erode Area Location *
                   </label>
                   <select
                     value={area}
@@ -1228,7 +1228,7 @@ For support or reschedule, call us at 9629335542.`;
                     className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 dark:text-slate-200 cursor-pointer"
                     id="appt-cust-area"
                   >
-                    <option value="Sathyamangalam">Sathyamangalam</option>
+                    <option value="Erode">Erode</option>
                     <option value="Gobichettipalayam">Gobichettipalayam</option>
                     <option value="Punjai Puliambatti">Punjai Puliambatti</option>
                     <option value="Erode">Erode</option>
@@ -1491,7 +1491,7 @@ For support or reschedule, call us at 9629335542.`;
                   </div>
                   <div>
                     <h3 className="font-extrabold text-base tracking-tight">SOP Quality Standards Check</h3>
-                    <p className="text-white/80 text-[11px] font-semibold mt-0.5">Tankro Sathyamangalam Professional Protocol</p>
+                    <p className="text-white/80 text-[11px] font-semibold mt-0.5">Tankro Erode Professional Protocol</p>
                   </div>
                 </div>
               </div>

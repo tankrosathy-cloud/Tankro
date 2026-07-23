@@ -99,7 +99,7 @@ export default function InvoiceModal({ job, onClose, settings }: InvoiceModalPro
 
   // Pre-filled WhatsApp message
   const handleWhatsAppShare = () => {
-    const bizName = (settings?.franchiseName || 'Tankro Sathyamangalam').toUpperCase();
+    const bizName = (settings?.franchiseName || 'Tankro Erode').toUpperCase();
     
     const formattedDate = new Date(job.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '-');
     const staffNames = job.staffAssigned.join(', ').replace(/, ([^,]*)$/, ' & $1');
@@ -153,7 +153,7 @@ ${bizName}`;
   };
 
   const handleFeedbackRequest = () => {
-    const bizName = (settings?.franchiseName || 'Tankro Sathyamangalam').toUpperCase();
+    const bizName = (settings?.franchiseName || 'Tankro Erode').toUpperCase();
     const text = `Dear ${job.customerName}, thank you for choosing *${bizName}* for your water tank cleaning service. We hope you enjoyed our service!
 
 Please take 30 seconds to share your valuable feedback and rate us on Google Maps. It helps our local team grow:
@@ -224,7 +224,7 @@ Please take 30 seconds to share your valuable feedback and rate us on Google Map
   };
 
   const handleCopyText = () => {
-    const bizName = (settings?.franchiseName || 'Tankro Sathyamangalam').toUpperCase();
+    const bizName = (settings?.franchiseName || 'Tankro Erode').toUpperCase();
     const text = `${bizName}
 Water Tank Cleaning Service
 
@@ -282,8 +282,8 @@ Payment Status: ${job.paymentStatus}`;
             {/* Invoice Design */}
             <div className="text-center mb-6">
               <span className="text-blue-500 font-bold tracking-widest text-xs uppercase block">Professional Water Tank Cleaners</span>
-              <h1 className="text-2xl font-bold text-slate-800 font-display">Tankro Sathyamangalam</h1>
-              <p className="text-xs text-slate-500">Sathyamangalam, Gobichettipalayam, Punjai Puliambatti and surrounding areas</p>
+              <h1 className="text-2xl font-bold text-slate-800 font-display">Tankro Erode</h1>
+              <p className="text-xs text-slate-500">Erode, Gobichettipalayam, Punjai Puliambatti and surrounding areas</p>
               <p className="text-xs text-slate-400 mt-1">Mobile: 96293 35542</p>
             </div>
 
@@ -497,7 +497,7 @@ Payment Status: ${job.paymentStatus}`;
                 </div>
               )}
               <p className="text-center mt-6 text-slate-400 font-medium">Thank you for your business! Clean water, healthy life!</p>
-              <p className="text-center text-[8px] text-slate-300">Generated via Tankro Sathyamangalam Tracker App</p>
+              <p className="text-center text-[8px] text-slate-300">Generated via Tankro Erode Tracker App</p>
             </div>
             </div>
           </div>

@@ -51,6 +51,7 @@ import {
 import { db } from './lib/firebase';
 import { collection, doc, onSnapshot, setDoc, deleteDoc } from 'firebase/firestore';
 import Logo from './components/Logo';
+import LicenseManager from './components/LicenseManager';
 
 // Helper to safely write to localStorage without throwing QuotaExceededError (e.g. when base64 image data exceeds 5MB limit)
 const safeLocalStorageSetItem = (key: string, value: string) => {
@@ -181,7 +182,11 @@ export default function App() {
     let initialSettings = DEFAULT_SETTINGS;
     if (savedSettings) {
       try {
-        initialSettings = JSON.parse(savedSettings);
+        const parsed = JSON.parse(savedSettings);
+        initialSettings = { ...DEFAULT_SETTINGS, ...parsed };
+        if (!parsed.license) {
+          initialSettings.license = DEFAULT_SETTINGS.license;
+        }
         setSettings(initialSettings);
       } catch (e) {
         console.error(e);
@@ -294,6 +299,12 @@ export default function App() {
       setPendingWriteCollections(prev => ({ ...prev, settings: docSnap.metadata.hasPendingWrites }));
       if (docSnap.exists()) {
         const data = docSnap.data();
+        
+        // If an existing DB doesn't have a license yet, initialize it
+        if (!data.license && !docSnap.metadata.hasPendingWrites) {
+           setDoc(doc(db, 'settings', 'wages'), { license: DEFAULT_SETTINGS.license }, { merge: true }).catch(err => console.error(err));
+        }
+
         setSettings((prev) => {
           // Explicitly omit session state from incoming Firestore data
           const { currentOwner, currentUserRole, seeded, ...cleanData } = data;
@@ -307,8 +318,8 @@ export default function App() {
         });
       } else {
         // Seed only when settings/wages is completely missing (meaning brand new Firestore database)
-        const defaultWages = initialSettings.dailyWages || DEFAULT_SETTINGS.dailyWages;
-        setDoc(doc(db, 'settings', 'wages'), { dailyWages: defaultWages, seeded: true }).catch(err => console.error(err));
+        const { currentOwner, currentUserRole, ...firestoreSettings } = initialSettings;
+        setDoc(doc(db, 'settings', 'wages'), { ...firestoreSettings, seeded: true }).catch(err => console.error(err));
 
         // Seed other collections
         SAMPLE_JOBS.forEach((j: Job) => {
@@ -403,7 +414,7 @@ export default function App() {
   };
 
   // Owner Selection handler
-  const handleSelectUser = (owner: 'Yuvaraj' | 'Nadeem' | 'Akram', role: 'Owner' | 'Manager') => {
+  const handleSelectUser = (owner: 'Kiruthika' | 'Karthick' | 'Prabhu', role: 'Owner' | 'Manager') => {
     const updated = { ...settings, currentOwner: owner, currentUserRole: role };
     saveSettingsToStore(updated);
   };
@@ -773,7 +784,7 @@ export default function App() {
       j.notes ? `"${j.notes.replace(/"/g, '""')}"` : ''
     ]);
     const csvContent = '\uFEFF' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    downloadCSV(`Tankro_Sathy_Jobs_${getTodayDateString()}.csv`, csvContent);
+    downloadCSV(`Tankro_Erode_Jobs_${getTodayDateString()}.csv`, csvContent);
   };
 
   const exportExpensesCSV = () => {
@@ -787,22 +798,24 @@ export default function App() {
       e.notes ? `"${e.notes.replace(/"/g, '""')}"` : ''
     ]);
     const csvContent = '\uFEFF' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    downloadCSV(`Tankro_Sathy_Expenses_${getTodayDateString()}.csv`, csvContent);
+    downloadCSV(`Tankro_Erode_Expenses_${getTodayDateString()}.csv`, csvContent);
   };
 
   const exportAttendanceCSV = () => {
-    const headers = ['Date', 'Althaf Status', 'Althaf Wage', 'Nafees Status', 'Nafees Wage', 'Akram Status', 'Akram Wage'];
+    
+    const staff = settings?.staffList || ['Althaf', 'Nafees', 'Prabhu'];
+    const headers = ['Date', ...staff.flatMap(s => [`${s} Status`, `${s} Wage`])];
     const rows = attendanceRecords.map((a) => [
       a.date,
       a.records.Althaf || 'Absent',
       a.wages.Althaf || 0,
       a.records.Nafees || 'Absent',
       a.wages.Nafees || 0,
-      a.records.Akram || 'Absent',
-      a.wages.Akram || 0
+      a.records.Prabhu || 'Absent',
+      a.wages.Prabhu || 0
     ]);
     const csvContent = '\uFEFF' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    downloadCSV(`Tankro_Sathy_Attendance_${getTodayDateString()}.csv`, csvContent);
+    downloadCSV(`Tankro_Erode_Attendance_${getTodayDateString()}.csv`, csvContent);
   };
 
   // TRIGGER EDITING UTILITIES
@@ -863,8 +876,17 @@ export default function App() {
     return <OwnerSelector onSelect={handleSelectUser} />;
   }
 
+  const handleSettingsUpdate = (updates: Partial<AppSettings>) => {
+    const newSettings = { ...settings, ...updates };
+    setSettings(newSettings);
+    safeLocalStorageSetItem('tankro_settings', JSON.stringify(newSettings));
+    const { currentOwner, currentUserRole, ...firestoreSettings } = newSettings;
+    setDoc(doc(db, 'settings', 'wages'), firestoreSettings, { merge: true }).catch(err => console.error(err));
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans select-none pb-[calc(100px+env(safe-area-inset-bottom,0px))] md:pb-0" id="app-root-container">
+    <LicenseManager settings={settings} updateSettings={handleSettingsUpdate}>
+      <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans select-none pb-[calc(100px+env(safe-area-inset-bottom,0px))] md:pb-0" id="app-root-container">
       {/* Desktop Left Sidebar (Sleek Theme Layout Pattern) */}
       <aside className="hidden md:flex w-64 bg-white border-r border-slate-200 flex-col shrink-0 sticky top-0 h-screen z-40 print:hidden" id="desktop-sidebar">
         {/* Logo block */}
@@ -873,8 +895,8 @@ export default function App() {
             <Logo className="w-full h-full object-contain" />
           </div>
           <div>
-            <span className="font-bold text-sm tracking-tight text-blue-900 font-display block leading-none">Tankro Sathy</span>
-            <span className="text-[10px] text-blue-600 font-bold mt-1 block">Tankro Sathy</span>
+            <span className="font-bold text-sm tracking-tight text-blue-900 font-display block leading-none">Tankro Erode</span>
+            <span className="text-[10px] text-blue-600 font-bold mt-1 block">Tankro Erode</span>
           </div>
         </div>
 
@@ -1088,7 +1110,7 @@ export default function App() {
         <div className="md:hidden bg-blue-600 text-white p-4 flex justify-between items-center sticky top-0 z-30 shadow-md" id="mobile-header">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-white rounded-lg p-0.5 flex items-center justify-center overflow-hidden shrink-0 shadow-sm border border-white/20"><Logo className="w-full h-full object-contain" /></div>
-            <h1 className="font-display font-bold text-lg leading-tight tracking-tight">Tankro<br/><span className="text-blue-200 text-xs font-medium tracking-normal">Sathy</span></h1>
+            <h1 className="font-display font-bold text-lg leading-tight tracking-tight">Tankro<br/><span className="text-blue-200 text-xs font-medium tracking-normal">Erode</span></h1>
           </div>
           <div className="flex items-center gap-2">
             {pendingWriteCollections.all ? (
@@ -1134,7 +1156,7 @@ export default function App() {
             )}
             {activeTab === 'add-job' && (
               <motion.div key="add-job" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-                <JobForm 
+                <JobForm settings={settings} 
                   onAddJob={handleAddJob} 
                   existingJobs={jobs}
                   attendanceRecords={attendanceRecords}
@@ -1550,5 +1572,6 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+    </LicenseManager>
   );
 }

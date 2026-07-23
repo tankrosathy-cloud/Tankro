@@ -9,13 +9,13 @@ export interface Job {
   customerName: string;
   customerPhone: string;
   customerAddress: string;
-  area: string; // Sathyamangalam, Gobichettipalayam, Punjai Puliambatti, Other
+  area: string; // Erode, Gobichettipalayam, Punjai Puliambatti, Other
   otherAreaText?: string;
   tankCapacity: number; // in Liters
   numTanks: number; // default 1
   individualTanks?: number[];
   distance: number; // in KM
-  staffAssigned: string[]; // Althaf, Nafees, Akram
+  staffAssigned: string[]; // Althaf, Nafees, Prabhu
   jobType: 'One-Time' | 'Subscription';
   subscriptionInterval?: '3 months' | '6 months' | 'Custom';
   customIntervalMonths?: number;
@@ -58,7 +58,7 @@ export interface Expense {
   date: string; // YYYY-MM-DD
   category: ExpenseCategory;
   amount: number;
-  paidBy: 'Yuvaraj' | 'Nadeem';
+  paidBy: 'Kiruthika' | 'Karthick';
   notes?: string;
 }
 
@@ -86,12 +86,18 @@ export interface Customer {
 }
 
 export interface AppSettings {
-  dailyWages: Record<string, number>; // Althaf, Nafees, Akram -> standard wage
-  currentOwner: 'Yuvaraj' | 'Nadeem' | 'Akram' | null;
+  staffList?: string[]; // Array of staff names (e.g. ['Althaf', 'Nafees', 'Prabhu'])
+  dailyWages: Record<string, number>; // Staff name -> standard wage
+  currentOwner: 'Kiruthika' | 'Karthick' | 'Prabhu' | null;
   currentUserRole?: 'Owner' | 'Manager' | null;
-  franchiseName?: string; // Custom branding name (e.g. "Tankro Sathyamangalam")
+  franchiseName?: string; // Custom branding name (e.g. "Tankro Erode")
   customSlabRates?: Record<string, number>; // Capacity (L) string -> Rate (₹) number
   whatsappTemplates?: Record<string, string>; // Template key -> template string text
+  license?: {
+    status: 'trial' | 'active' | 'expired';
+    trialStartDate: string; // YYYY-MM-DD
+    activationKey?: string;
+  };
 }
 
 export interface Appointment {

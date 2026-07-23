@@ -11,11 +11,11 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 const logoImg = "/tankro_logo_new.svg";
 
 interface OwnerSelectorProps {
-  onSelect: (username: 'Yuvaraj' | 'Nadeem' | 'Akram', role: 'Owner' | 'Manager') => void;
+  onSelect: (username: 'Kiruthika' | 'Karthick' | 'Prabhu', role: 'Owner' | 'Manager') => void;
 }
 
 export default function OwnerSelector({ onSelect }: OwnerSelectorProps) {
-  const [selectedUser, setSelectedUser] = useState<'Yuvaraj' | 'Nadeem' | 'Akram'>('Nadeem');
+  const [selectedUser, setSelectedUser] = useState<'Kiruthika' | 'Karthick' | 'Prabhu'>('Karthick');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export default function OwnerSelector({ onSelect }: OwnerSelectorProps) {
       }
       
       if (password === expectedPassword) {
-        const role = selectedUser === 'Akram' ? 'Manager' : 'Owner';
+        const role = selectedUser === 'Prabhu' ? 'Manager' : 'Owner';
         onSelect(selectedUser, role);
       } else {
         setError('Incorrect password!');
@@ -119,10 +119,10 @@ export default function OwnerSelector({ onSelect }: OwnerSelectorProps) {
             />
           </div>
           <h1 className="text-2xl font-black text-slate-800 font-display tracking-tight leading-none">
-            Tankro Sathy
+            Tankro Erode
           </h1>
           <p className="text-xs text-blue-600 font-bold mt-1.5 uppercase tracking-wider">
-            Tankro Sathy (Sathyamangalam)
+            Tankro Erode (Erode)
           </p>
           <p className="text-[11px] text-slate-400 mt-1 max-w-xs leading-normal">
             Secure multi-role payroll, jobs, and customer tracker
@@ -210,9 +210,9 @@ export default function OwnerSelector({ onSelect }: OwnerSelectorProps) {
               Select Account
             </label>
             <div className="grid grid-cols-3 gap-2">
-              {(['Nadeem', 'Yuvaraj', 'Akram'] as const).map((user) => {
+              {(['Karthick', 'Kiruthika', 'Prabhu'] as const).map((user) => {
                 const isSelected = selectedUser === user;
-                const role = user === 'Akram' ? 'Manager' : 'Owner';
+                const role = user === 'Prabhu' ? 'Manager' : 'Owner';
                 return (
                   <button
                     key={user}
@@ -283,7 +283,7 @@ export default function OwnerSelector({ onSelect }: OwnerSelectorProps) {
             className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-xs font-bold shadow-lg shadow-blue-100 transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
             id="login-submit-btn"
           >
-            <span>{isLoading ? 'Loading...' : `Log In securely (${selectedUser === 'Akram' ? 'Manager Login' : 'Owner Login'})`}</span>
+            <span>{isLoading ? 'Loading...' : `Log In securely (${selectedUser === 'Prabhu' ? 'Manager Login' : 'Owner Login'})`}</span>
             {!isLoading && <ArrowRight className="w-4 h-4" />}
           </button>
           
@@ -305,7 +305,7 @@ export default function OwnerSelector({ onSelect }: OwnerSelectorProps) {
         <div className="h-px bg-slate-100"></div>
 
         <div className="text-[10px] text-slate-400 leading-normal">
-          Owners (<strong className="text-slate-600">Nadeem & Yuvaraj</strong>) hold full system control. Managers (<strong className="text-slate-600">Akram</strong>) have read-only limits on transaction deletions.
+          Owners (<strong className="text-slate-600">Karthick & Kiruthika</strong>) hold full system control. Managers (<strong className="text-slate-600">Prabhu</strong>) have read-only limits on transaction deletions.
         </div>
       </motion.div>
     </div>
