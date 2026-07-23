@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="drop-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Circle -->
+  <rect width="512" height="512" rx="128" fill="url(#bg-grad)" />
+  <!-- Protective Crest / Shield Shape -->
+  <path d="M256 70 L380 120 V250 C380 340 310 410 256 442 C202 410 132 340 132 250 V120 Z" fill="#0c4a6e" opacity="0.3" />
+  <!-- Droplets Visual representation -->
+  <path d="M256 120 C256 120 336 210 336 270 C336 314 300 350 256 350 C212 350 176 314 176 270 C176 210 256 120 256 120 Z" fill="url(#drop-grad)" />
+  <!-- Wave / Cleaning Accent at bottom -->
+  <path d="M200 290 Q228 310 256 290 T312 290" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.8" />
+  <path d="M220 315 Q244 325 256 315 T292 315" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.5" />
+</svg>

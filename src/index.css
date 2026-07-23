@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Sleek Theme Sky-palette Overrides for Blue classes across all components */
+  --color-blue-50: #f0f9ff;
+  --color-blue-100: #e0f2fe;
+  --color-blue-200: #bae6fd;
+  --color-blue-300: #7dd3fc;
+  --color-blue-400: #38bdf8;
+  --color-blue-500: #0ea5e9;
+  --color-blue-600: #0284c7;
+  --color-blue-700: #0369a1;
+  --color-blue-800: #075985;
+  --color-blue-900: #0c4a6e;
+  --color-blue-950: #082f49;
+}
+
+/* Base style adjustments for extra sleekness */
+body {
+  background-color: #f8fafc; /* Slate 50 */
+  color: #1e293b; /* Slate 800 */
+}
+
+/* Print Specific Utility Styles */
+@media print {
+  @page { margin: 15mm; }
+  
+  *, *::before, *::after {
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    will-change: auto !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  body, html {
+    background: #fff !important;
+    color: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: static !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  #root,
+  #app-root-container,
+  #invoice-modal-wrapper,
+  #invoice-modal-container,
+  #printable-invoice {
+    display: block !important;
+    position: static !important; /* CRITICAL FOR IOS SAFARI MULTI-PAGE PRINTING */
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    border: none !important;
+    background: transparent !important;
+    transform: none !important;
+  }
+
+  #invoice-modal-container,
+  #printable-invoice {
+    flex: none !important;
+  }
+
+  #app-header,
+  #bottom-navigation-bar,
+  #mobile-bottom-nav,
+  #desktop-sidebar,
+  #main-content-scroll,
+  #mobile-header,
+  #close-invoice-modal,
+  #toast-notification-banner,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print-page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+}
+/* Custom transitions and scrollbar stylings */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom Dark Mode Theme Overrides - Sleek Night Mode */
+body.dark {
+  background-color: #09090b; /* Very deep zinc for true night mode */
+  color: #e4e4e7; /* Zinc 200 */
+}
+
+/* Map standard Tailwind backgrounds to dark equivalents */
+.dark .bg-slate-50, 
+.dark .bg-slate-50\/50,
+.dark .bg-slate-100,
+.dark .bg-slate-150,
+.dark #app-root-container {
+  background-color: #09090b !important;
+}
+
+/* Cards, sidebars, headers */
+.dark .bg-white,
+.dark .bg-white\/80,
+.dark .bg-white\/90,
+.dark aside,
+.dark header,
+.dark nav,
+.dark #desktop-sidebar,
+.dark #app-header,
+.dark #bottom-navigation-bar {
+  background-color: #18181b !important; /* Zinc 900 */
+}
+
+/* Specific colored backgrounds preservation */
+.dark .bg-blue-50,
+.dark .bg-blue-50\/50,
+.dark .bg-blue-100 {
+  background-color: #1e3a8a !important; /* Deep blue 900 */
+  color: #93c5fd !important;
+}
+
+.dark .bg-purple-50,
+.dark .bg-purple-50\/50,
+.dark .bg-purple-100 {
+  background-color: #3b0764 !important; /* Deep purple 900 */
+  color: #d8b4fe !important;
+}
+
+.dark .bg-emerald-50,
+.dark .bg-emerald-50\/50,
+.dark .bg-emerald-100,
+.dark .bg-emerald-50\/40,
+.dark .bg-emerald-950,
+.dark .bg-emerald-950\/5 {
+  background-color: #064e3b !important; /* Deep emerald 900 */
+  color: #6ee7b7 !important;
+}
+
+.dark .bg-amber-50,
+.dark .bg-amber-50\/50,
+.dark .bg-amber-100 {
+  background-color: #78350f !important; /* Deep amber 900 */
+  color: #fcd34d !important;
+}
+
+.dark .bg-rose-50,
+.dark .bg-rose-50\/50,
+.dark .bg-red-50,
+.dark .bg-red-50\/50,
+.dark .bg-red-100 {
+  background-color: #7f1d1d !important; /* Deep red 900 */
+  color: #fca5a5 !important;
+}
+
+/* Map borders */
+.dark .border,
+.dark .border-slate-100,
+.dark .border-slate-150,
+.dark .border-slate-200,
+.dark .border-slate-300,
+.dark .border-b,
+.dark .border-t,
+.dark .border-r,
+.dark .divide-slate-100 > * + *,
+.dark .divide-slate-200 > * + * {
+  border-color: #27272a !important; /* Zinc 800 */
+}
+
+/* Text Colors */
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: #f4f4f5 !important; /* Zinc 100 */
+}
+
+.dark .text-slate-700,
+.dark .text-slate-600 {
+  color: #e4e4e7 !important; /* Zinc 200 */
+}
+
+.dark .text-slate-500 {
+  color: #a1a1aa !important; /* Zinc 400 */
+}
+
+.dark .text-slate-400 {
+  color: #71717a !important; /* Zinc 500 */
+}
+
+/* Preserve specific colored text */
+.dark .text-blue-500,
+.dark .text-blue-600,
+.dark .text-sky-400 {
+  color: #60a5fa !important;
+}
+
+.dark .text-purple-500,
+.dark .text-purple-600 {
+  color: #c084fc !important;
+}
+
+.dark .text-emerald-500,
+.dark .text-emerald-600,
+.dark .text-emerald-800 {
+  color: #34d399 !important;
+}
+
+.dark .text-amber-500,
+.dark .text-amber-600,
+.dark .text-amber-800 {
+  color: #fbbf24 !important;
+}
+
+.dark .text-rose-500,
+.dark .text-rose-600,
+.dark .text-red-500,
+.dark .text-red-600,
+.dark .text-red-800 {
+  color: #f87171 !important;
+}
+
+/* Forms and inputs */
+.dark input, 
+.dark select, 
+.dark textarea {
+  background-color: #09090b !important;
+  border-color: #27272a !important;
+  color: #f4f4f5 !important;
+}
+
+.dark input::placeholder, 
+.dark textarea::placeholder {
+  color: #71717a !important;
+}
+
+/* Modals & Dialog overlays */
+.dark .bg-white.rounded-3xl,
+.dark .bg-white.rounded-2xl {
+  background-color: #18181b !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Fix shadows in dark mode */
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-2xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Hover styles */
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-50\/50:hover,
+.dark .hover\:bg-slate-100:hover,
+.dark .hover\:bg-white:hover {
+  background-color: #27272a !important;
+}
+
+/* Adjust scrollbars for dark mode */
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+.dark .opacity-10 {
+  opacity: 0.2 !important;
+}
+
+.dark .bg-transparent {
+  background-color: transparent !important;
+}
+

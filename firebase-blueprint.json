@@ -1,0 +1,152 @@
+{
+  "entities": {
+    "Job": {
+      "title": "Job",
+      "description": "Water tank cleaning jobs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 32 },
+        "customerName": { "type": "string", "maxLength": 128 },
+        "customerPhone": { "type": "string", "maxLength": 32 },
+        "customerAddress": { "type": "string", "maxLength": 512 },
+        "area": { "type": "string", "maxLength": 128 },
+        "otherAreaText": { "type": "string", "maxLength": 128 },
+        "tankCapacity": { "type": "number" },
+        "numTanks": { "type": "number" },
+        "individualTanks": { "type": "array" },
+        "distance": { "type": "number" },
+        "staffAssigned": { "type": "array" },
+        "jobType": { "type": "string", "maxLength": 64 },
+        "subscriptionInterval": { "type": "string", "maxLength": 64 },
+        "customIntervalMonths": { "type": "number" },
+        "gstApplicable": { "type": "boolean" },
+        "paymentStatus": { "type": "string", "maxLength": 64 },
+        "paymentMode": { "type": "string", "maxLength": 64 },
+        "notes": { "type": "string", "maxLength": 1024 },
+        "isSlabOverridden": { "type": "boolean" },
+        "manualSlabRate": { "type": "number" },
+        "individualTanksManualRates": { "type": "array" },
+        "isDistanceOverridden": { "type": "boolean" },
+        "manualDistanceCharge": { "type": "number" },
+        "subtotal": { "type": "number" },
+        "gstAmount": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "nextServiceDueDate": { "type": "string", "maxLength": 32 },
+        "qualityChecklist": { "type": "array" },
+        "googleLocation": { "type": "string", "maxLength": 1024 },
+        "photoBefore": { "type": "string" },
+        "photoAfter": { "type": "string" },
+        "photosBefore": { "type": "array" },
+        "photosAfter": { "type": "array" },
+        "isFranchiseReferral": { "type": "boolean" },
+        "isFranchiseRoyaltyPaid": { "type": "boolean" }
+      },
+      "required": ["id", "date", "customerName", "customerPhone", "customerAddress", "area", "tankCapacity", "numTanks", "distance", "staffAssigned", "jobType", "gstApplicable", "paymentStatus", "paymentMode", "subtotal", "gstAmount", "grandTotal"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Business expenses logged by owners",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 32 },
+        "category": { "type": "string", "maxLength": 128 },
+        "amount": { "type": "number" },
+        "paidBy": { "type": "string", "maxLength": 128 },
+        "notes": { "type": "string", "maxLength": 1024 }
+      },
+      "required": ["id", "date", "category", "amount", "paidBy"]
+    },
+    "DailyAttendance": {
+      "title": "DailyAttendance",
+      "description": "Daily staff attendance and wages records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 32 },
+        "records": { "type": "object" },
+        "wages": { "type": "object" }
+      },
+      "required": ["id", "date", "records", "wages"]
+    },
+    "CustomerNote": {
+      "title": "CustomerNote",
+      "description": "Customer persistent notes and logs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "text": { "type": "string", "maxLength": 4096 }
+      },
+      "required": ["id", "text"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Scheduled cleaning appointments with date and timeslot",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 32 },
+        "timeslot": { "type": "string", "maxLength": 64 },
+        "customerName": { "type": "string", "maxLength": 128 },
+        "customerPhone": { "type": "string", "maxLength": 32 },
+        "customerAddress": { "type": "string", "maxLength": 512 },
+        "area": { "type": "string", "maxLength": 128 },
+        "otherAreaText": { "type": "string", "maxLength": 128 },
+        "tankCapacity": { "type": "number" },
+        "numTanks": { "type": "number" },
+        "status": { "type": "string", "maxLength": 64 },
+        "staffAssigned": { "type": "array" },
+        "notes": { "type": "string", "maxLength": 1024 },
+        "createdAt": { "type": "string", "maxLength": 32 },
+        "qualityChecklist": { "type": "array" },
+        "routeSequence": { "type": "number" },
+        "googleLocation": { "type": "string", "maxLength": 1024 },
+        "photoBefore": { "type": "string" },
+        "photoAfter": { "type": "string" },
+        "photosBefore": { "type": "array" },
+        "photosAfter": { "type": "array" },
+        "isFranchiseReferral": { "type": "boolean" }
+      },
+      "required": ["id", "date", "timeslot", "customerName", "customerPhone", "customerAddress", "area", "tankCapacity", "numTanks", "status", "staffAssigned", "createdAt"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global settings shared across all users (like daily wages config)",
+      "type": "object",
+      "properties": {
+        "dailyWages": { "type": "object" },
+        "currentOwner": { "type": "string", "maxLength": 128 },
+        "currentUserRole": { "type": "string", "maxLength": 128 },
+        "seeded": { "type": "boolean" }
+      },
+      "required": ["dailyWages"]
+    }
+  },
+  "firestore": {
+    "jobs/{jobId}": {
+      "schema": { "$ref": "#/entities/Job" },
+      "description": "All jobs."
+    },
+    "expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "All expenses."
+    },
+    "attendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/DailyAttendance" },
+      "description": "All attendance records."
+    },
+    "customerNotes/{customerNoteId}": {
+      "schema": { "$ref": "#/entities/CustomerNote" },
+      "description": "All customer notes."
+    },
+    "appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "All appointments."
+    },
+    "settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "Settings like wages."
+    }
+  }
+}

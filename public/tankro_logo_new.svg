@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350" width="100%" height="100%">
+  <!-- Definitions for Gradients and Shadows -->
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#dc2626" />
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Main Background Container (Clean White) -->
+  <rect width="100%" height="100%" fill="#ffffff" rx="16" />
+
+  <!-- Content Group -->
+  <g transform="translate(10, 0)">
+    <!-- Shield / Crest Icon Container -->
+    <g transform="translate(40, 35)" filter="url(#dropShadow)">
+      <!-- Outer Shield Crest -->
+      <path d="M100 20 L180 55 V150 C180 215 130 265 100 288 C70 265 20 215 20 150 V55 Z" fill="url(#shieldGrad)" />
+      <!-- Inner Shield Highlight -->
+      <path d="M100 32 L165 62 V142 C165 197 122 240 100 260 C78 240 35 197 35 142 V62 Z" fill="#ffffff" opacity="0.1" />
+      <!-- Water Droplet Inside Shield -->
+      <path d="M100 70 C100 70 145 130 145 170 C145 195 125 215 100 215 C75 215 55 195 55 170 C55 130 100 70 100 70 Z" fill="url(#dropGrad)" />
+      <!-- Reflection/Highlight on droplet -->
+      <path d="M85 155 C82 165 88 175 95 175" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+      <!-- Small Sparkle/Star for "Clean" -->
+      <path d="M135 110 L138 118 L146 121 L138 124 L135 132 L132 124 L124 121 L132 118 Z" fill="#ffffff" />
+      <path d="M65 190 L67 194 L71 195 L67 196 L65 200 L63 196 L59 195 L63 194 Z" fill="#38bdf8" />
+    </g>
+
+    <!-- Typography Group -->
+    <g transform="translate(260, 140)">
+      <!-- Brand Name "TANKRO" with Custom Stretched Style -->
+      <text x="0" y="0" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="900" font-size="78" fill="#1e3a8a" letter-spacing="-2">TANKRO</text>
+      <!-- Subtext "SATHY" in Vibrant Accent Red -->
+      <text x="5" y="45" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="800" font-size="34" fill="url(#accentGrad)" letter-spacing="4">SATHY</text>
+      
+      <!-- Horizontal Decorative Line -->
+      <line x1="5" y1="65" x2="285" y2="65" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" />
+      
+      <!-- Taglines / Services list -->
+      <text x="5" y="90" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="700" font-size="14" fill="#475569" letter-spacing="1">DOMESTIC &amp; COMMERCIAL</text>
+      <text x="5" y="112" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="700" font-size="13" fill="#0284c7" letter-spacing="2.5">TANK CLEANING SERVICES</text>
+    </g>
+  </g>
+</svg>
